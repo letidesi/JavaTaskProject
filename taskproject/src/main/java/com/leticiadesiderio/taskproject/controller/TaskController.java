@@ -54,10 +54,12 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Long> remove(@PathVariable Long id) {
+    public ResponseEntity<String> remove(@PathVariable Long id) {
         return taskRepository.findById(id).map(t -> {
             taskRepository.delete(t);
-            return ResponseEntity.ok(id);
+            String message = "Removido tarefa de id " + id + ", de nome: '" + t.getName() + "', com o responsável: "
+                    + t.getResponsible();
+            return ResponseEntity.ok(message);
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
